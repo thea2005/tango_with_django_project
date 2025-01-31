@@ -12,4 +12,13 @@ class Page(models.Model):
     def __str__(self):
         return self.title
 
+class Category(models.Model):
+    name = models.CharField(max_length=128, unique=True)
+
+    class Meta:
+        verbose_name_plural = 'Categories'  # Fixes the typo in the admin interface
+
+    def __str__(self):
+        return self.name
+
 # Create your models here.
