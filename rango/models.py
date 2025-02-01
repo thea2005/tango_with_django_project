@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 
 # class Category(models.Model):
 #     name = models.CharField(max_length=128, unique=True)
@@ -7,12 +8,16 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=128, unique=True)
-    views = models.IntegerField(default=0)  # New field with default 0
+    views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
-
+    slug = models.SlugField()
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
+    
     class Meta:
-        verbose_name_plural = 'Categories'  # Fixes the typo in the admin interface
-
+        verbose_name_plural = 'categories'
+    
     def __str__(self):
         return self.name
 
@@ -25,5 +30,5 @@ class Page(models.Model):
         return self.title
 
 
-
+slug = models.SlugField(unique=True)
 # Create your models here.
